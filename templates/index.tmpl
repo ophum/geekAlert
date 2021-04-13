@@ -1,0 +1,17 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>geek alert</title>
+</head>
+<body>
+    <h1>geek alert</h1>
+    {{ range . }}
+    <hr>
+    <form action="/alert" method="POST">
+        <input type="hidden" name="alertType" value="{{ .Name }}">
+        <input type="submit" value="{{ .Label }}">
+    </form>
+    {{ end }}
+
+</body>
+</html>
