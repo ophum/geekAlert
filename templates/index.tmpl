@@ -5,10 +5,11 @@
 </head>
 <body>
     <h1>geek alert</h1>
+    <a href="/create">追加</a>
     {{ range . }}
     <hr>
     <form action="/alert" method="POST">
-        <input type="hidden" name="alertType" value="{{ .Name }}">
+        <input type="hidden" name="alertTypeID" value="{{ .ID }}">
         <input type="submit" value="{{ .Label }}">
     </form>
     {{ end }}

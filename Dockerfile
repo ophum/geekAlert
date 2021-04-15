@@ -5,5 +5,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' -o bin
 
 FROM alpine:latest
 WORKDIR /app/
+RUN apk add sqlite
 COPY --from=0 /go/src/github.com/ophum/geekAlert/bin/geekAlert .
 ENTRYPOINT ["./geekAlert"]
