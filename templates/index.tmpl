@@ -21,28 +21,6 @@ flex-wrap: wrap;
 }
 </style>
 <body>
-<<<<<<< Updated upstream
-    <h1>geek alert</h1>
-    <a href="/create">追加</a>
-    <div class="box">
-    {{ range . }}
-        <div class="item">
-            <p>その話題...{{.Message}}かも...</p>
-            <form action="/alert" method="POST">
-                <input type="hidden" name="alertTypeID" value="{{ .ID }}">
-                <input type="submit" value="{{ .Label }}">
-                <label>
-                    <input type="checkbox" name="isIncludeVia">
-                    <span>viaを含める</span>
-                </label>
-            </form>
-            <form action="/delete" method="POST">
-                <input type="hidden" name="id" value="{{ .ID }}">
-                <input type="submit" value="削除">
-            </form>
-        </div>
-    {{ end }}
-=======
     <div class="container">
         <h1 class="h1 text-center">🚨GEEK ALERT🚨</h1>
         <div class="mb-2">
@@ -73,7 +51,6 @@ flex-wrap: wrap;
             </div>
         </div>
         {{ end }}
->>>>>>> Stashed changes
     </div>
 </body>
 </html>
