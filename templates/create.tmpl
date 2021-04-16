@@ -1,15 +1,25 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>geek alert</title>
-</head>
+    <title>🚨GEEK ALERT🚨</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="assets/css/style.css" rel="stylesheet">
 <body>
-    <h1>geek alert: create</h1>
-    <form action="/store" method="POST">
-        <p>label: <input type="text" name="label" value=""></p>
-        <p>その話題...<input type="text" name="msg" value="">かも...  (10文字まで)</p>
-        <p><input type="submit" value="追加"></p>
-    </form>
-
+    <div class="container">
+        <h1 class="h1 text-center">🚨GEEK ALERT🚨</h1>
+        <form action="/store" method="POST">
+            <p>
+                <input type="text" name="label" class="form-control form-inline" placeholder="ラベル">
+            </p>
+            <p>
+                <span>その話題...</span>
+                <input type="text" name="msg" class="form-control form-inline" maxlength="10">
+                <span>かも... (10文字まで)</span>
+            </p>
+            <p>
+                <button type="submit" class="btn btn-primary">追加</button>
+            </p>
+        </form>
+    </div>
 </body>
 </html>
