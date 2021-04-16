@@ -128,9 +128,9 @@ func alert(ctx *gin.Context) {
 		if isIncludeVia == "on" {
 			addr, err := net.LookupAddr(ctx.ClientIP())
 			if err != nil {
-				via = " (via " + ctx.ClientIP() + ")"
+				via = "\n (via " + ctx.ClientIP() + ")"
 			} else {
-				via = " (via " + ctx.ClientIP() + " -> " + addr[0] + ")"
+				via = "\n (via " + ctx.ClientIP() + " -> " + addr[0] + ")"
 			}
 		}
 
