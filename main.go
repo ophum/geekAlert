@@ -121,10 +121,17 @@ func alert(ctx *gin.Context) {
 		log.Println("webhook! ", alertType.Message)
 		c := resty.New()
 
+		isIncludeVia := ctx.PostForm("isIncludeVia")
+		via := ""
+		if isIncludeVia == "on" {
+			via = " (via " + ctx.ClientIP() + ")"
+		}
+
 		b := Webhook{
 			Username: config.Username,
-			Text:     "その話題..." + alertType.Message + "かも...",
+			Text:     "その話題..." + alertType.Message + "かも..." + via,
 		}
+
 		c.R().SetHeaders(map[string]string{
 			"Content-Type": "application/json",
 		}).SetBody(b).Post(config.WebhookURL)

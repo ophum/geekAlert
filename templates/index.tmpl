@@ -12,12 +12,16 @@
     <form action="/alert" method="POST">
         <input type="hidden" name="alertTypeID" value="{{ .ID }}">
         <input type="submit" value="{{ .Label }}">
+        <label>
+            <input type="checkbox" name="isIncludeVia">
+            <span>viaを含める</span>
+        </label>
     </form>
      <form action="/delete" method="POST">
         <input type="hidden" name="id" value="{{ .ID }}">
         <input type="submit" value="削除">
     </form>
-    
+
     {{ end }}
 
 </body>
