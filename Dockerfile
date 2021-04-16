@@ -7,5 +7,6 @@ FROM alpine:latest
 WORKDIR /app/
 RUN apk add sqlite
 COPY ./templates/ /app/templates/
+COPY ./assets/ /app/assets/
 COPY --from=0 /go/src/github.com/ophum/geekAlert/bin/geekAlert .
 ENTRYPOINT ["./geekAlert"]
