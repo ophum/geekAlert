@@ -9,7 +9,6 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
@@ -122,6 +121,7 @@ type Attachment struct {
 	Title      string `json:"title"`
 	Footer     string `json:"footer"`
 	FooterIcon string `json:"footer_icon"`
+	Text       string `json:"text"`
 	TS         int    `json:"ts"`
 }
 
@@ -141,39 +141,36 @@ func alert(ctx *gin.Context) {
 		c := resty.New()
 
 		isIncludeVia := ctx.PostForm("isIncludeVia")
-		via := "名無しの新卒"
+		src := ""
 		if isIncludeVia == "on" {
 			addr, err := net.LookupAddr(ctx.ClientIP())
 			if err != nil {
-				via = " (via " + ctx.ClientIP() + ")"
+				src = " | " + ctx.ClientIP()
 			} else {
-				via = " (via " + ctx.ClientIP() + " -> " + addr[0] + ")"
+				src = " | " + ctx.ClientIP() + " -> " + addr[0]
 			}
 		}
 
+		name := "名無しの新卒"
 		msg := "その話題... " + alertType.Message + " かも..."
 		icon := config.PuiPuiURL
 		if n, err := rand.Int(rand.Reader, big.NewInt(100)); err == nil {
 			if n.Int64() == 8 {
-				if isIncludeVia == "on" {
-					via = "ヘルシェイク矢野 " + via
-				} else {
-					via = "ヘルシェイク矢野"
-				}
+				name = "ヘルシェイク矢野"
 				icon = config.HellShakeYanoURL
 			}
 		}
 
 		b := Webhook{
-			Username: via,
+			Username: name,
 			IconURL:  icon,
 			Attachments: []Attachment{
 				{
 					Fallback:   msg,
 					Title:      msg,
-					Footer:     "<https://github.com/ophum/geekAlert|ophum/geekAlert>",
+					Footer:     "<https://github.com/ophum/geekAlert|ophum/geekAlert>" + src,
 					FooterIcon: "https://slack-imgs.com/?c=1&o1=wi32.he32.si&url=https%3A%2F%2Fgithub.githubassets.com%2Ffavicon.ico",
-					TS:         int(time.Now().Unix()),
+					//TS:         int(time.Now().Unix()),
 				},
 			},
 		}

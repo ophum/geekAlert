@@ -1,3 +1,5 @@
 username: geek alert
 webhookURL: https://hooks.slack.com/services/xxxx/xxxx/xxxx
 dbFilePath: ./db.db
+hellShakeYanoURL: https://example.com/hoge.png
+puiPuiURL: https://example.com/hoge.png
