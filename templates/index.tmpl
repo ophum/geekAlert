@@ -8,10 +8,16 @@
     <a href="/create">追加</a>
     {{ range . }}
     <hr>
+    <p>その話題...{{.Message}}かも...</p>
     <form action="/alert" method="POST">
         <input type="hidden" name="alertTypeID" value="{{ .ID }}">
         <input type="submit" value="{{ .Label }}">
     </form>
+     <form action="/delete" method="POST">
+        <input type="hidden" name="id" value="{{ .ID }}">
+        <input type="submit" value="削除">
+    </form>
+    
     {{ end }}
 
 </body>

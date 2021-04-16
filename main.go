@@ -71,6 +71,7 @@ func main() {
 	r.POST("/alert", alert)
 	r.GET("/create", create)
 	r.POST("/store", store)
+	r.POST("/delete", delete)
 	if err := r.Run(":8080"); err != nil {
 		log.Fatal(err.Error())
 	}
@@ -91,8 +92,8 @@ func store(ctx *gin.Context) {
 	label := ctx.PostForm("label")
 	msg := ctx.PostForm("msg")
 
-	if len(msg) > 10 {
-		msg = msg[:10]
+	if len(msg) > 32 {
+		msg = msg[:32]
 	}
 
 	alertType := AlertType{
@@ -128,6 +129,16 @@ func alert(ctx *gin.Context) {
 			"Content-Type": "application/json",
 		}).SetBody(b).Post(config.WebhookURL)
 	}
+
+	ctx.Redirect(http.StatusFound, "")
+}
+
+func delete(ctx *gin.Context) {
+	id := ctx.PostForm("id")
+	var alertType AlertType
+	db.First(&alertType, id)
+
+	db.Delete(&alertType)
 
 	ctx.Redirect(http.StatusFound, "")
 }
