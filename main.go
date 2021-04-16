@@ -1,12 +1,15 @@
 package main
 
 import (
+	"crypto/rand"
 	"flag"
 	"html"
 	"log"
+	"math/big"
 	"net"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
@@ -23,9 +26,11 @@ type AlertType struct {
 }
 
 type Config struct {
-	Username   string `yaml:"username"`
-	WebhookURL string `yaml:"webhookURL"`
-	DBFilePath string `yaml:"dbFilePath"`
+	Username         string `yaml:"username"`
+	WebhookURL       string `yaml:"webhookURL"`
+	DBFilePath       string `yaml:"dbFilePath"`
+	HellShakeYanoURL string `yaml:"hellShakeYanoURL"`
+	PuiPuiURL        string `yaml:"puiPuiURL"`
 }
 
 var (
@@ -109,9 +114,21 @@ func store(ctx *gin.Context) {
 	ctx.Redirect(http.StatusFound, "")
 }
 
+type Attachment struct {
+	Fallback   string `json:"fallback"`
+	AuthorName string `json:"author_name"`
+	AuthorLink string `json:"author_link"`
+	AuthorIcon string `json:"author_icon"`
+	Title      string `json:"title"`
+	Footer     string `json:"footer"`
+	FooterIcon string `json:"footer_icon"`
+	TS         int    `json:"ts"`
+}
+
 type Webhook struct {
-	Username string `json:"username"`
-	Text     string `json:"text"`
+	Username    string       `json:"username"`
+	IconURL     string       `json:"icon_url"`
+	Attachments []Attachment `json:"attachments"`
 }
 
 func alert(ctx *gin.Context) {
@@ -124,7 +141,7 @@ func alert(ctx *gin.Context) {
 		c := resty.New()
 
 		isIncludeVia := ctx.PostForm("isIncludeVia")
-		via := ""
+		via := "名無しの新卒"
 		if isIncludeVia == "on" {
 			addr, err := net.LookupAddr(ctx.ClientIP())
 			if err != nil {
@@ -134,9 +151,31 @@ func alert(ctx *gin.Context) {
 			}
 		}
 
+		msg := "その話題... " + alertType.Message + " かも..."
+		icon := config.PuiPuiURL
+		if n, err := rand.Int(rand.Reader, big.NewInt(100)); err == nil {
+			if n.Int64() == 8 {
+				if isIncludeVia == "on" {
+					via = "ヘルシェイク矢野 " + via
+				} else {
+					via = "ヘルシェイク矢野"
+				}
+				icon = config.HellShakeYanoURL
+			}
+		}
+
 		b := Webhook{
-			Username: config.Username,
-			Text:     "その話題..." + alertType.Message + "かも..." + via,
+			Username: via,
+			IconURL:  icon,
+			Attachments: []Attachment{
+				{
+					Fallback:   msg,
+					Title:      msg,
+					Footer:     "<https://github.com/ophum/geekAlert|ophum/geekAlert>",
+					FooterIcon: "https://slack-imgs.com/?c=1&o1=wi32.he32.si&url=https%3A%2F%2Fgithub.githubassets.com%2Ffavicon.ico",
+					TS:         int(time.Now().Unix()),
+				},
+			},
 		}
 
 		c.R().SetHeaders(map[string]string{
