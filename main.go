@@ -4,6 +4,7 @@ import (
 	"flag"
 	"html"
 	"log"
+	"net"
 	"net/http"
 	"os"
 
@@ -125,7 +126,12 @@ func alert(ctx *gin.Context) {
 		isIncludeVia := ctx.PostForm("isIncludeVia")
 		via := ""
 		if isIncludeVia == "on" {
-			via = " (via " + ctx.ClientIP() + ")"
+			addr, err := net.LookupAddr(ctx.ClientIP())
+			if err != nil {
+				via = " (via " + ctx.ClientIP() + ")"
+			} else {
+				via = " (via " + ctx.ClientIP() + " -> " + addr[0] + ")"
+			}
 		}
 
 		b := Webhook{
