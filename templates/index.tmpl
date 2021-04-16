@@ -3,26 +3,42 @@
     <meta charset="utf-8">
     <title>geek alert</title>
 </head>
+<style>
+.box {
+width: 100vw;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+}
+
+.item {
+  min-width: 200px;
+  margin: 5px;
+  border: 1px solid black;
+  padding: 5px;
+}
+</style>
 <body>
     <h1>geek alert</h1>
     <a href="/create">追加</a>
+    <div class="box">
     {{ range . }}
-    <hr>
-    <p>その話題...{{.Message}}かも...</p>
-    <form action="/alert" method="POST">
-        <input type="hidden" name="alertTypeID" value="{{ .ID }}">
-        <input type="submit" value="{{ .Label }}">
-        <label>
-            <input type="checkbox" name="isIncludeVia">
-            <span>viaを含める</span>
-        </label>
-    </form>
-     <form action="/delete" method="POST">
-        <input type="hidden" name="id" value="{{ .ID }}">
-        <input type="submit" value="削除">
-    </form>
-
+        <div class="item">
+            <p>その話題...{{.Message}}かも...</p>
+            <form action="/alert" method="POST">
+                <input type="hidden" name="alertTypeID" value="{{ .ID }}">
+                <input type="submit" value="{{ .Label }}">
+                <label>
+                    <input type="checkbox" name="isIncludeVia">
+                    <span>viaを含める</span>
+                </label>
+            </form>
+            <form action="/delete" method="POST">
+                <input type="hidden" name="id" value="{{ .ID }}">
+                <input type="submit" value="削除">
+            </form>
+        </div>
     {{ end }}
-
+    </div>
 </body>
 </html>
