@@ -1,7 +1,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>geek alert</title>
+    <title>🚨GEEK ALERT🚨</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <style>
 .box {
@@ -19,6 +21,7 @@ flex-wrap: wrap;
 }
 </style>
 <body>
+<<<<<<< Updated upstream
     <h1>geek alert</h1>
     <a href="/create">追加</a>
     <div class="box">
@@ -39,6 +42,38 @@ flex-wrap: wrap;
             </form>
         </div>
     {{ end }}
+=======
+    <div class="container">
+        <h1 class="h1 text-center">🚨GEEK ALERT🚨</h1>
+        <div class="mb-2">
+            <a href="/create" class="btn btn-primary">追加</a>
+        </div>
+        {{ range . }}
+        <div class="card mb-2">
+            <div class="card-body">
+                <p class="alert alert-secondary">
+                    その話題...
+                    <strong>{{.Message}}</strong>
+                    かも...
+                </p>
+                <form action="/alert" method="POST">
+                    <div class="text-right">
+                        <input type="hidden" name="alertTypeID" value="{{ .ID }}">
+                        <button type="submit" class="btn btn-warning">🚨アラートを挙げる🚨</button>
+                        <label>
+                            <input type="checkbox" name="isIncludeVia">
+                            <span>viaを含める</span>
+                        </label>
+                    </div>
+                </form>
+                <form action="/delete" method="POST">
+                    <input type="hidden" name="id" value="{{ .ID }}">
+                    <button type="submit" class="btn btn-danger">削除</button>
+                </form>
+            </div>
+        </div>
+        {{ end }}
+>>>>>>> Stashed changes
     </div>
 </body>
 </html>

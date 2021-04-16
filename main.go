@@ -65,6 +65,7 @@ func main() {
 
 	r := gin.Default()
 
+	r.Static("/assets", "./assets")
 	r.LoadHTMLGlob("templates/*.tmpl")
 
 	r.GET("", index)
